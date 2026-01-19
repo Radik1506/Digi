@@ -36,6 +36,7 @@ class UserDao:
     def getAllUsers(self):
         return [user.__dict__ for user in self.users]
 
+
 # Test DAO
 user_dao = UserDao()
 response=user_dao.getAllUsers()
@@ -61,7 +62,7 @@ def user():
             resposta = {"msg":"Usuari No trobat"}
     else:  #  Si els paràmetres NO ok 
         # respondre error
-        resposta = {"msg":"Falta paràmetre Username"}
+        resposta = {"msg":"Falta parametre Username"}
     
     return jsonify(resposta)
 
