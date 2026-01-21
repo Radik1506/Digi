@@ -1,0 +1,25 @@
+classDiagram
+    class Artista {
+        - nom: str
+        - estil: str
+        - albums: list<Album>
+        + afegir_album(album)
+        + llistar_albums()
+    }
+
+    class Album {
+        - id: int
+        - titol: str
+        - data_llancament: date
+        - cancons: list<Canco>
+        + afegir_canco(canco)
+    }
+
+    class Canco {
+        - id: int
+        - titol: str
+        - durada: float
+    }
+
+    Artista "1" --> "0..*" Album : té
+    Album "1" --> "0..*" Canco : conté
