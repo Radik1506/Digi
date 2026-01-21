@@ -1,5 +1,7 @@
 import requests
 
+from prototype1.server import ViewConsole
+
 class User:
     def __init__ (self, username, nom, password, email, rol = "tutor"):
         self.username = username
@@ -23,20 +25,25 @@ class daoUserClient:
                 return user
         return None
     
-class ViewConsole:
-    def getInputUsername():
-        # TODO
-        return None
+    class ViewConsole:
+        @staticmethod
+        def getInputUsername():
+            username = input("Introduce nombre de usuario: ")
+            user = dao.getUserByUsername(username)
+            return user
 
     def showUserInfo(username):
         # to-do
-        return None
+        if user is None:
+            print("User not found")
+        else:
+            print("User Found")
+            print(f"Username: {user.username}")
+            print(f"Name: {user.name}")
+            print(f"Email: {user.email}")
+            print(f"Role: {user.rol}")
 
-
-daoUserClient = daoUserClient()
-
-u = daoUserClient.getUserByUsername("rob")
-print(u)
-
-u = daoUserClient.getUserByUsername("Not exist")
-print(u)
+if __name__ == "__main__":
+    dao = daoUserClient
+    user = ViewConsole.getInputUsername()
+    ViewConsole.showUserInfo(user)

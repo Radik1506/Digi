@@ -35,12 +35,15 @@ class UserDao:
     
     def getAllUsers(self):
         return [user.__dict__ for user in self.users]
+    
+    def getAllUsernames(self):
+        return [u.username for u in self.users]
 
 
 # Test DAO
-user_dao = UserDao()
+'''user_dao = UserDao()
 response=user_dao.getAllUsers()
-print(response)
+print(response)'''
 # End TEST
 
 # Instanciem el Dao User
@@ -66,10 +69,26 @@ def user():
     
     return jsonify(resposta)
 
+@app.route('/usernames',methods=['GET'])
+def usernames():
+    usernames = user_dao.getAllUsernames()
+    return jsonify (usernames)
+
+
 @app.route('/getuser',methods=['GET'])
 def userList():
     return jsonify (user_dao.getAllUsers())
 
+class daoUserClient:
+    def getUsernames(self):
+        return None
 
+
+class ViewConsole:
+    def getInputUsername():
+        return None
+    def showUserInfo():
+        return None
+    
 if __name__ == '__main__':
     app.run(debug=True)
