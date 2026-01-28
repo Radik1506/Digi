@@ -1,0 +1,60 @@
+classDiagram
+    class Usuari {
+        +String nom
+        +String email
+        +String contrasenya
+        +registrar()
+        +iniciarSessio()
+        +tancarSessio()
+    }
+
+    class Client {
+        +cercarEsdeveniment(criteri)
+        +comprarEntrada(esdeveniment)
+        +veureLesMevesEntrades()
+    }
+
+    class Administrador {
+        +crearEsdeveniment(dades)
+        +modificarEsdeveniment(id, dades)
+        +eliminarEsdeveniment(id)
+    }
+
+    class Esdeveniment {
+        +String nom
+        +String descripcio
+        +Date data
+        +String ubicacio
+        +int entradesDisponibles
+        +actualitzarAforament()
+        +obtenirDetalls()
+        +validarDisponibilitat()
+    }
+
+    class Entrada {
+        +double preu
+        +String estat
+        +String codiReferencia
+        +assignarPropietari(client)
+        +canviarEstat(nouEstat)
+        +generarQR()
+    }
+
+    class Pagament {
+        +double import
+        +Date dataPagament
+        +String metodePagament
+        +processarTransaccio()
+        +generarRebut()
+        +rebutjarPagament()
+    }
+
+    %% Relacions
+    Usuari <|-- Client : Herència
+    Usuari <|-- Administrador : Herència
+
+    Administrador "1" --> "*" Esdeveniment : gestiona
+    Esdeveniment "1" *-- "*" Entrada : conté (composició)
+    Client "1" o-- "*" Entrada : compra (agregació)
+    Client "1" --> "*" Pagament : realitza
+    Pagament "1" -- "1" Entrada : liquida
