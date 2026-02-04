@@ -1,50 +1,53 @@
 classDiagram
+    direction LR
+
+    %% --- THE LIBRARIANS (DAOs) ---
+    class DAOUser {
+        +listAllUsers()
+        +addUser(User)
+        +updateUser(id, data)
+        +deleteUser(id)
+        +searchByEmail(email)
+        +searchByUsernameOrEmail(string)
+    }
+
+    class DAOChild {
+        +listAllChildren()
+        +addChild(Child)
+        +getChildrenByUser(user_id)
+    }
+
+    class DAOTap {
+        +listAllTaps()
+        +addTap(Tap)
+        +getTapsByChild(child_id)
+    }
+
+    %% --- THE DATA OBJECTS (Models) ---
     class User {
         +int id
         +string username
         +string password
         +string email
-        +int idrole
     }
 
     class Child {
         +int id
         +string child_name
         +int sleep_average
-        +int treatment_id
-        +int time
     }
 
     class Tap {
         +int id
         +int child_id
-        +int status_id
         +int user_id
         +datetime init
-        +datetime end
     }
 
-    class Role {
-        +int id
-        +string type_rol
-    }
+    %% --- CONNECTIONS ---
+    DAOUser "1" --o "*" User : manages
+    DAOChild "1" --o "*" Child : manages
+    DAOTap "1" --o "*" Tap : manages
 
-    class Status {
-        +int id
-        +string name
-    }
-
-    class Treatment {
-        +int id
-        +string name
-    }
-
-    %% Relationships
-    User "1" --> "1" Role : has
-    Child "1" --> "1" Treatment : uses
-    Tap "n" --> "1" User : recorded by
-    Tap "n" --> "1" Child : belongs to
-    Tap "n" --> "1" Status : has state
-    
-    %% Many-to-Many via relation_user_child
     User "n" -- "n" Child : linked via relation_user_child
+    Child "1" -- "*" Tap : has records

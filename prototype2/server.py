@@ -6,7 +6,7 @@ class User:
         self.username = username
         self.password = password
         self.email = email
-        self.idrole = id
+        self.idrole = idrole
     
     def __str__(self):
         return self.username + ":" + self.password + ":" + self.email
@@ -91,3 +91,107 @@ treatments = [
     Treatment(id=1, name='Hour'),
     Treatment(id=2, name='percentage')
 ]
+class DAOUser:
+    def __init__(self, users_list):
+        self.users = users_list
+
+    def listAllUsers(self):
+        return self.users
+
+    def addUser(self, user_obj):
+        self.users.append(user_obj)
+
+    def searchByEmail(self, email):
+        for u in self.users:
+            if u.email == email:
+                return u
+        return None
+
+    def updateUser(self, user_id, new_data):
+        user = self.getUserById(user_id)
+        if user:
+            user.username = new_data.get('username', user.username)
+            user.email = new_data.get('email', user.email)
+            return True
+        return False
+
+    def deleteUser(self, user_id):
+        user = self.getUserById(user_id)
+        if user:
+            self.users.remove(user)
+            return True
+        return False
+
+    def getUserById(self, user_id):
+        for u in self.users:
+            if u.id == user_id:
+                return u
+        return None
+    
+    def searchByUsernameOrEmail(self, identifier):
+        for u in self.users:
+            if u.username == identifier or u.email == identifier:
+                return u
+        return None
+
+class DAOChild:
+    def __init__(self, children_list, relation_list):
+        self.children = children_list
+        self.relations = relation_list
+
+    def listAllChildren(self):
+        return self.children
+
+    def getChildrenByUser(self, user_id):
+        # Finds IDs of children linked to this user
+        child_ids = [r['child_id'] for r in self.relations if r['user_id'] == user_id]
+        # Returns the actual child objects
+        return [c for c in self.children if c.id in child_ids]
+
+    def addChild(self, child_obj):
+        self.children.append(child_obj)
+
+class DAOTap:
+    def __init__(self, taps_list):
+        self.taps = taps_list
+
+    def listAllTaps(self):
+        return self.taps
+
+    def addTap(self, tap_obj):
+        self.taps.append(tap_obj)
+
+    def getTapsByChild(self, child_id):
+        return [t for t in self.taps if t.child_id == child_id]
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Create the DAOs (The Librarians)
+dao_user = DAOUser(users)
+dao_child = DAOChild(children, relation_user_child)
+dao_tap = DAOTap(taps)
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    # Change searchByEmail to this:
+    user = dao_user.searchByUsernameOrEmail(data.get('username')) 
+    
+    if user and user.password == data.get('password'):
+        return jsonify({"msg": "Usuari Ok", "coderesponse": "1", "id": user.id, "token": "token12345"}), 200
+    return jsonify({"msg": "No validat", "coderesponse": "0"}), 400
+
+@app.route('/child', methods=['POST'])
+def get_children_route():
+    data = request.get_json()
+    # Use the DAO to get the list
+    user_kids = dao_child.getChildrenByUser(data.get('iduser'))
+    
+    # Convert objects to dictionaries so Flask can send them
+    return jsonify([k.__dict__ for k in user_kids]), 200
+
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
