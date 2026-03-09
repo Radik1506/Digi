@@ -1,6 +1,5 @@
 import requests
-from dadesServer import User
-from user import *
+from client import *
 from flask import jsonify
 
 
@@ -22,5 +21,11 @@ class DaoUserClient:
                 return None
             else:
                 user = User(user_data_raw('id'), user_data_raw('username'), "", user_data_raw('email'), user_data_raw('idrole'), user_data_raw('token'))
+                return user
         else:
             return None
+
+daoClient=DaoUserClient()
+user=User("", "mare", "12345", "", "", "")
+resposta=daoClient.login(user)
+print(resposta)

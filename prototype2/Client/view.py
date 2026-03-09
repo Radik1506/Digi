@@ -22,7 +22,7 @@ class ViewConsole:
                     print("Bye")
 
     def viewLogin(self):
-        print("view Login")
+        print("View Login")
         print("Input name or email and password")
-        username = input("Username or email")
-        password = input("Password")
+        username = input("Username or email: ")
+        password = input("Password: ")
