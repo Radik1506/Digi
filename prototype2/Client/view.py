@@ -10,10 +10,9 @@ class ViewConsole:
         print("2: Quit")
         while(True):
             option=input("Enter Option: ")
-            print(f"DEBUG option='{option}'") 
             if (option.isdigit()):
                 optionInt=int(option)
-                if (optionInt < 2 and optionInt > 0):
+                if (optionInt < 3 and optionInt > 0):
                     return optionInt
                 else:
                     print("Error, Input a correct option")
