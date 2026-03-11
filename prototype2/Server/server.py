@@ -73,25 +73,14 @@ def login():
 
 @app.route('/child', methods=['POST'])
 def get_child():
-
-    token = request.headers.get("Authorization")
-
-    if not token:
-        return jsonify({
-            "coderesponse": "0",
-            "msg": "No validat"
-        }), 400
-
-    user = user_dao.getUserByToken(token)
-
-    if not user and not iduser.is_integer:
-        return jsonify({
-            "coderesponse": "0",
-            "msg": "No validat"
-        }), 400
-
     data = request.get_json()
     iduser = data.get("iduser")
+
+    if not iduser:
+        return jsonify({
+            "coderesponse": "0",
+            "msg": "No validat"
+        }), 400
 
     childs = child_dao.getChildrenByUser(iduser)
 
@@ -100,7 +89,6 @@ def get_child():
         "coderesponse": "1",
         "children": childs
     }), 200
-
 
 if __name__ == '__main__':
     app.run(debug=True)

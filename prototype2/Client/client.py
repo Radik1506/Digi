@@ -59,5 +59,3 @@ class ViewConsole:
         else:
             print("Login incorrecte")
 
-view = ViewConsole()
-view.showLogin()
