@@ -12,15 +12,11 @@ status_dao = StatusDao()
 role_dao = RoleDao()
 treatment_dao = TreatmentDao()
 
-
-# Login
-
 @app.route('/login', methods=['POST'])
 def login():
 
     token_header = request.headers.get("Authorization")
 
-    # Login por token
     if token_header:
         user = user_dao.getUserByToken(token_header)
 
@@ -42,7 +38,6 @@ def login():
         }), 400
 
 
-    # Login normal
     data = request.get_json()
 
     username = data.get("username")
@@ -57,7 +52,6 @@ def login():
     user = user_dao.login(username, password)
 
     if user:
-        # Para generar el token
         user.token = str(uuid.uuid4())
 
         return jsonify({
@@ -76,8 +70,6 @@ def login():
         "msg": "No validat"
     }), 400
 
-
-# Child
 
 @app.route('/child', methods=['POST'])
 def get_child():
