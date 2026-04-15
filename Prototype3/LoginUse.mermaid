@@ -1,0 +1,11 @@
+flowchart LR
+    A[Tutor]
+    B[Cuidador]
+    subgraph Sistema
+        C(manageChild)
+        D(manageTapat)
+        E(Login)
+        F(Modify Settings)
+    end
+    A --> D & E & F
+    B --> C & D & E & F
