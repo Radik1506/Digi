@@ -1,5 +1,5 @@
-from DAOUserClient import *
-from User import *
+from Prototype3.Client.DAOUserClient import *
+from Prototype3.Client.User import *
 
 class ViewConsole:
 
@@ -7,7 +7,9 @@ class ViewConsole:
 
     def viewShowMenu(self):
         print("1. Login")
-        print("2: Quit")
+        print("2: Login Token")
+        print("3: Child")
+        print("4: Quit")
         while(True):
             option=input("Enter Option: ")
             if (option.isdigit()):
@@ -19,12 +21,17 @@ class ViewConsole:
     
     def viewGeneral(self):
         option=-1
-        while (option != 2):
+        while (option != 4):
             option=self.viewShowMenu()
             match option:
                 case 1:
                     self.viewLogin()
                 case 2:
+                    self.viewLoginToken()
+                    print("Login Token")
+                case 3:
+                    print("Children")
+                case 4:
                     print("Bye")
 
     def viewLogin(self):
@@ -37,6 +44,7 @@ class ViewConsole:
 
         if resposta_user:
             self.viewUser(resposta_user)
+            token=resposta_user.token
         else:
             self.viewUserNA()
     

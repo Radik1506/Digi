@@ -28,3 +28,6 @@ class ChildDAO:
         cursor.close()
         con.close() 
         return user
+    
+    def getChildren(self, id):
+        return "Nigger"
