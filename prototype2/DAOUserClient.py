@@ -1,5 +1,5 @@
 import requests
-from client import *
+from Client import *
 from flask import jsonify
 from Prototype3.Client.User import *
 

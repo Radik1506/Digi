@@ -1,5 +1,5 @@
 from User import *
-from DaoUserClient import *
+from DAOUserClient import *
 
 class ViewConsole:
 
@@ -10,12 +10,13 @@ class ViewConsole:
         print("1: Login")
         print("2: Login Token")
         print("3: Child")
-        print("4: Quit")
+        print("4. Taps")
+        print("5: Quit")
         while(True):
             option=input("Enter Option: ")
             if(option.isdigit):
                 optionInt=int(option)
-                if(optionInt >0 and optionInt <3):
+                if(optionInt >0 and optionInt <6):
                     return optionInt
             
             print("Error: Introdueix una opció correcta")
@@ -23,7 +24,7 @@ class ViewConsole:
         
     def viewGeneral(self):
         option=-1
-        while(option!=2):
+        while(True):
             option=self.viewShowMenu()
             match option:
                 case 1:
@@ -34,11 +35,28 @@ class ViewConsole:
                     self.viewLoginToken(self.token)
                 case 3:
                     #Childs
-                    print("Childs")
-                    self.viewLogin()
+                    print("View Childs")
+                    self.viewChilds(self.token)
+                    #self.viewLogin()
                 case 4:
+                    #Childs
+                    print("View taps")
+                    userId = input("Enter User Id: ")
+                    childId = input("Enter Child Id: ")
+                    self.viewTaps(userId, childId, self.token)
+                    #self.viewLogin()
+                case 5:
                     # Quit
+                    exit()
                     print("Adeu, Gràcies per utilitzar l'aplicació")
+
+
+    def viewChilds(self, token):
+        print("View Childs")
+        resposta_child=self.daoClient.childToken(token)
+        if(resposta_child):
+            print(resposta_child)              
+        
 
     def viewLoginToken(self, token):
         print("View LOGIN TOKEN")
@@ -69,6 +87,9 @@ class ViewConsole:
     def viewUserNotAutenticated(self):
         print("View User")
         print("User NOT Authenticated")
+
+    def viewTaps(self, user_id, child_id, token):
+        print(self.daoClient.taps(user_id, child_id, token))
 
 
 viewConsole=ViewConsole()

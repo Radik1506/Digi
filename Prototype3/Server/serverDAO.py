@@ -4,6 +4,7 @@ import hashlib
 from time import time
 import random
 
+
 class ChildDAO:
 
     def connectBBDD(self):
@@ -11,7 +12,7 @@ class ChildDAO:
             host="localhost",
             user="root",
             password="root",
-            database="tapatapp"
+            database="TapatApp"
         )
         return connection
 
@@ -21,6 +22,16 @@ class ChildDAO:
         query = "SELECT distinct  Child.* FROM RelationUserChild,Child WHERE RelationUserChild.user_id='"
         query += id_user + "' and RelationUserChild.child_id=Child.id"""
         cursor.execute(query)
+        results = cursor.fetchall()
+        cursor.close()
+        con.close()
+        return results
+    
+    def getTapsByIds(self, id_user, id_child):
+        con = self.connectBBDD()
+        cursor = con.cursor(dictionary=True)
+        query = "SELECT * FROM Tap WHERE child_id = %s AND user_id = %s"
+        cursor.execute(query, (id_child, id_user))
         results = cursor.fetchall()
         cursor.close()
         con.close()
@@ -85,8 +96,8 @@ class UserDAO:
         data = milliseconds
         hash_object = hashlib.sha256(data.encode('utf-8'))
         return hash_object.hexdigest() + ""
-
-
-dao = UserDAO()
-u=dao.getUserByToken("b7575e52c23392732156fe8d3564f022a20e0599c3ac1a296cbc7dd1c246e396")
-print(u)
+    
+'''
+daoChild = ChildDAO()
+print(daoChild.getTapsByIds("1", "1"))
+'''
