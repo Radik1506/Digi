@@ -63,12 +63,11 @@ class DaoUserClient:
         else:
             return None
         
-    def taps(self, user_id, child_id, token):
+    def taps(self, token, child_id):
         URL_peticio= self.base_URL + "/taps"
         #print(token)
         headers = {'Content-Type': 'application/json', 'api-token': token}
         params_POST = {
-            "user_id": int(user_id),
             "child_id": int(child_id)
         }
         response = requests.post(URL_peticio,headers=headers, json=params_POST) 

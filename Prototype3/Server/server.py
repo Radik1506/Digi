@@ -76,9 +76,8 @@ def child():
 def tap():
     token=request.headers.get("api-token")
     data = request.get_json()
-    user = data.get('user_id')
     child = data.get('child_id')
-    taps = childDao.getTapsByIds(int(user), int(child))
+    taps = childDao.getTapsByIds(int(child))
     if(token):
         # comprovar que el token existeix a un usuari
         print(token)

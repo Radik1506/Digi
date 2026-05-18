@@ -14,7 +14,9 @@ class ViewConsole:
         print("5: Quit")
         while(True):
             option=input("Enter Option: ")
-            if(option.isdigit):
+            if not option.isdigit:
+                print("error, enter a number")
+            if option.isdigit:
                 optionInt=int(option)
                 if(optionInt >0 and optionInt <6):
                     return optionInt
@@ -43,12 +45,14 @@ class ViewConsole:
                     print("View taps")
                     userId = input("Enter User Id: ")
                     childId = input("Enter Child Id: ")
-                    self.viewTaps(userId, childId, self.token)
+                    self.viewTaps(self.token, childId)
                     #self.viewLogin()
                 case 5:
                     # Quit
                     exit()
                     print("Adeu, Gràcies per utilitzar l'aplicació")
+                case _:
+                    print("Error")
 
 
     def viewChilds(self, token):
@@ -88,8 +92,8 @@ class ViewConsole:
         print("View User")
         print("User NOT Authenticated")
 
-    def viewTaps(self, user_id, child_id, token):
-        print(self.daoClient.taps(user_id, child_id, token))
+    def viewTaps(self, token, child_id):
+        print(self.daoClient.taps(token, child_id))
 
 
 viewConsole=ViewConsole()
